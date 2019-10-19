@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pf.bm.constants.SoaConstants;
 import pf.bm.dto.TokenJson;
 import pf.bm.dto.UserJson;
 import pf.bm.dto.UserListJson;
 import pf.bm.service.Auth0Client;
+import pf.bm.service.KafkaService;
 import pf.bm.validator.TokenValidator;
 
 import java.util.List;
@@ -24,13 +26,16 @@ public class UsersController {
     private Auth0Client auth0Client;
     @Autowired
     private TokenValidator tokenValidator;
+    @Autowired
+    private KafkaService kafkaService;
 
     @RequestMapping(method = RequestMethod.GET)
     public UserListJson test(TokenJson tokenJson) throws Auth0Exception {
         tokenValidator.validateToken(tokenJson);
-        List<User> users = auth0Client.getAllUsers();
+        kafkaService.sendMessage(SoaConstants.GET_AUTH_USERS);
 
-        return buildUserListJsonResponse(users);
+        return null;
+        //return buildUserListJsonResponse(users);
     }
 
     private UserListJson buildUserListJsonResponse(List<User> users) {

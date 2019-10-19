@@ -9,15 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>soa-http-endpoint</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>groupId</groupId>
-            <artifactId>soa-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <artifactId>soa-common</artifactId>
 
 
 </project>

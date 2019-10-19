@@ -13,9 +13,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <mainClass>pf.Main</mainClass>-->
-<!--                </configuration>-->
 
                 <executions>
                     <execution>
@@ -39,6 +36,7 @@
     <modules>
         <module>soa-backend</module>
         <module>soa-http-endpoint</module>
+        <module>soa-common</module>
     </modules>
 
     <dependencies>
