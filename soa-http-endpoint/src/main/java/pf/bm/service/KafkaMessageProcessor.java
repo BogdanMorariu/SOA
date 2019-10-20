@@ -1,26 +1,30 @@
 package pf.bm.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.auth0.json.mgmt.users.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pf.bm.config.KafkaConsumerConfig;
 import pf.bm.constants.SoaConstants;
 
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class KafkaMessageProcessor {
 
-    @Autowired
-    private KafkaService kafkaService;
+    private Logger logger = LoggerFactory.getLogger(KafkaMessageProcessor.class);
+
+    private List<User> usersResponse;
 
     @KafkaListener(topics = SoaConstants.TOPIC_USER_RESPONSE, groupId = KafkaConsumerConfig.USER_RESPONSE_GROUP)
     public void listen(String message) {
-        System.out.println("Endpoint received message in group " + KafkaConsumerConfig.USER_RESPONSE_GROUP + ": " + message);
+        logger.info("Endpoint received message in group " + KafkaConsumerConfig.USER_RESPONSE_GROUP + ": " + message);
+        usersResponse = new ArrayList<>();
     }
 
-    @PostConstruct
-    public void setUp() {
-        kafkaService.sendMessage(SoaConstants.TOPIC_USER_REQUEST,"soa-endpoint is up an running");
+    public List<User> getUsersResponse() {
+        return usersResponse;
     }
 }
