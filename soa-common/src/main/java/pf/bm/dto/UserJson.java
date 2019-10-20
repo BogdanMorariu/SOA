@@ -22,4 +22,18 @@ public class UserJson {
     public Date lastLogin;
     @JsonProperty
     public int loginsCount;
+
+    @Override
+    public UserJson clone(){
+        UserJson newUserJson = new UserJson();
+        newUserJson.email=this.email;
+        newUserJson.auth0Id=this.auth0Id;
+        newUserJson.nickname=this.nickname;
+        newUserJson.createdAt=this.createdAt;
+        newUserJson.updatedAt=this.updatedAt;
+        newUserJson.lastIp=this.lastIp;
+        newUserJson.lastLogin=this.lastLogin;
+        newUserJson.loginsCount=this.loginsCount;
+        return newUserJson;
+    }
 }

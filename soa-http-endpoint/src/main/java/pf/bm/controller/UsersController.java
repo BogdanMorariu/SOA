@@ -38,24 +38,6 @@ public class UsersController {
         kafkaService.sendMessage(SoaConstants.TOPIC_USER_REQUEST, SoaConstants.ACTION_GET_AUTH_USERS);
         Thread.sleep(5000);
 
-        return buildUserListJsonResponse(kafkaMessageProcessor.getUsersResponse());
-    }
-
-    private UserListJson buildUserListJsonResponse(List<User> users) {
-        UserListJson userListJson = new UserListJson();
-        userListJson.users = users.stream().map(this::buildUserJson).collect(Collectors.toList());
-        return userListJson;
-    }
-    private UserJson buildUserJson(User user) {
-        UserJson userJson = new UserJson();
-        userJson.email = user.getEmail();
-        userJson.auth0Id = user.getId();
-        userJson.nickname = user.getNickname();
-        userJson.createdAt = user.getCreatedAt();
-        userJson.updatedAt = user.getUpdatedAt();
-        userJson.lastIp = user.getLastIP() != null ? user.getLastIP() : "none";
-        userJson.lastLogin = user.getLastLogin();
-        userJson.loginsCount = user.getLoginsCount() != null ? user.getLoginsCount() : 0;
-        return userJson;
+        return kafkaMessageProcessor.getUsersResponse();
     }
 }

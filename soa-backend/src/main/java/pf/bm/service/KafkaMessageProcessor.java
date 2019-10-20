@@ -9,13 +9,15 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pf.bm.config.KafkaConsumerConfig;
 import pf.bm.constants.SoaConstants;
+import pf.bm.dto.UserJson;
+import pf.bm.dto.UserListJson;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static pf.bm.constants.SoaConstants.TOPIC_USER_RESPONSE;
 import static pf.bm.constants.SoaConstants.TOPIC_USER_REQUEST;
+import static pf.bm.constants.SoaConstants.TOPIC_USER_RESPONSE;
 
 @Service
 public class KafkaMessageProcessor {
@@ -33,11 +35,31 @@ public class KafkaMessageProcessor {
         switch (message) {
             case SoaConstants.ACTION_GET_AUTH_USERS: {
                 List<User> users = auth0Client.getAllUsers();
-                kafkaService.sendMessage(TOPIC_USER_RESPONSE, users);
+                kafkaService.sendMessage(TOPIC_USER_RESPONSE, buildUserListJsonResponse(users));
             }
             default: {
-                kafkaService.sendMessage(TOPIC_USER_RESPONSE, new ArrayList<>());
+                kafkaService.sendMessage(TOPIC_USER_RESPONSE, buildUserListJsonResponse(new ArrayList<>()));
             }
         }
+    }
+
+
+    private UserListJson buildUserListJsonResponse(List<User> users) {
+        UserListJson userListJson = new UserListJson();
+        userListJson.users = users.stream().map(this::buildUserJson).collect(Collectors.toList());
+        return userListJson;
+    }
+
+    private UserJson buildUserJson(User user) {
+        UserJson userJson = new UserJson();
+        userJson.email = user.getEmail();
+        userJson.auth0Id = user.getId();
+        userJson.nickname = user.getNickname();
+        userJson.createdAt = user.getCreatedAt();
+        userJson.updatedAt = user.getUpdatedAt();
+        userJson.lastIp = user.getLastIP() != null ? user.getLastIP() : "none";
+        userJson.lastLogin = user.getLastLogin();
+        userJson.loginsCount = user.getLoginsCount() != null ? user.getLoginsCount() : 0;
+        return userJson;
     }
 }

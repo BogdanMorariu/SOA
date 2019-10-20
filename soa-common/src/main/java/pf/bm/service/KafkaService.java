@@ -1,17 +1,15 @@
 package pf.bm.service;
 
-import com.auth0.json.mgmt.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import pf.bm.dto.UserListJson;
 
 @Service
 public class KafkaService {
 
     @Autowired(required = false)
-    private KafkaTemplate<String, List<User>> kafkaUsersTemplate;
+    private KafkaTemplate<String, UserListJson> kafkaUsersTemplate;
     @Autowired(required = false)
     private KafkaTemplate<String, String> kafkaStringTemplate;
 
@@ -19,7 +17,7 @@ public class KafkaService {
         kafkaStringTemplate.send(topicName, msg);
     }
 
-    public void sendMessage(String topicName, List<User> msg) {
+    public void sendMessage(String topicName, UserListJson msg) {
         kafkaUsersTemplate.send(topicName, msg);
     }
 }
