@@ -36,7 +36,6 @@ public class UsersController {
     public UserListJson getAllUsers(TokenJson tokenJson) throws InterruptedException {
         tokenValidator.validateToken(tokenJson);
         kafkaService.sendMessage(SoaConstants.TOPIC_USER_REQUEST, SoaConstants.ACTION_GET_AUTH_USERS);
-        Thread.sleep(5000);
 
         return kafkaMessageProcessor.getUsersResponse();
     }

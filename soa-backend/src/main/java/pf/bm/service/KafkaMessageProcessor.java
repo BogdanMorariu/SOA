@@ -36,6 +36,7 @@ public class KafkaMessageProcessor {
             case SoaConstants.ACTION_GET_AUTH_USERS: {
                 List<User> users = auth0Client.getAllUsers();
                 kafkaService.sendMessage(TOPIC_USER_RESPONSE, buildUserListJsonResponse(users));
+                break;
             }
             default: {
                 kafkaService.sendMessage(TOPIC_USER_RESPONSE, buildUserListJsonResponse(new ArrayList<>()));

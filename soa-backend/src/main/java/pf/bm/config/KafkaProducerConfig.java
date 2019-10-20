@@ -10,6 +10,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import pf.bm.dto.UserListJson;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class KafkaProducerConfig {
     private static final String BOOTSTRAP_ADDRESS = "localhost:9092";
 
     @Bean
-    public ProducerFactory<String, List<User>> producerFactory() {
+    public ProducerFactory<String, UserListJson> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_ADDRESS);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -31,7 +32,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, List<User>> kafkaTemplate() {
+    public KafkaTemplate<String, UserListJson> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

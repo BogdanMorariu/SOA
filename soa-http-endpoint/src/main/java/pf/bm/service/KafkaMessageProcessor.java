@@ -26,7 +26,7 @@ public class KafkaMessageProcessor {
     }
 
     public UserListJson getUsersResponse() throws InterruptedException {
-        if(usersResponse == null)
+        while(usersResponse == null)
             Thread.sleep(500);
         UserListJson result = usersResponse.clone();
         usersResponse = null;
