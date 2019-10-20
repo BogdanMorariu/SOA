@@ -11,6 +11,7 @@ import pf.bm.dto.TokenJson;
 import pf.bm.dto.UserJson;
 import pf.bm.dto.UserListJson;
 import pf.bm.service.Auth0Client;
+import pf.bm.service.KafkaMessageProcessor;
 import pf.bm.service.KafkaService;
 import pf.bm.validator.TokenValidator;
 
@@ -28,14 +29,16 @@ public class UsersController {
     private TokenValidator tokenValidator;
     @Autowired
     private KafkaService kafkaService;
+    @Autowired
+    private KafkaMessageProcessor kafkaMessageProcessor;
 
     @RequestMapping(method = RequestMethod.GET)
-    public UserListJson test(TokenJson tokenJson) throws Auth0Exception {
+    public UserListJson getAllUsers(TokenJson tokenJson) throws InterruptedException {
         tokenValidator.validateToken(tokenJson);
-        //kafkaService.sendMessage(SoaConstants.GET_AUTH_USERS);
+        kafkaService.sendMessage(SoaConstants.TOPIC_USER_REQUEST, SoaConstants.ACTION_GET_AUTH_USERS);
+        Thread.sleep(5000);
 
-        return null;
-        //return buildUserListJsonResponse(users);
+        return buildUserListJsonResponse(kafkaMessageProcessor.getUsersResponse());
     }
 
     private UserListJson buildUserListJsonResponse(List<User> users) {
