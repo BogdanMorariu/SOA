@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Auth0Config {
 
-    @Value("${domain}")
+    @Value("${auth0.domain}")
     private String domain;
     private String managementClientId = "nl3w3BQvRpj2oZjfLr7QxNpjk8jn0nKl";
     private String managementClientSecret = "nWjTK_nvyz63BDKK99fa7bQCFgXkYu2oy3nOJpXX2yi9g_BDSoVZjglOp_rabTjo";

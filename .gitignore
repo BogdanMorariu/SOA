@@ -28,3 +28,4 @@ hs_err_pid*
 target/*
 soa-backend/target/*
 soa-http-endpoint/target/*
+soa-common/target/*

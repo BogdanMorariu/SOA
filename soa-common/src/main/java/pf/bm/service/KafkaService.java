@@ -12,14 +12,7 @@ public class KafkaService {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    private static final String topicName = "user-request";
-
-    public void sendMessage(String msg) {
+    public void sendMessage(String topicName, String msg) {
         kafkaTemplate.send(topicName, msg);
-    }
-
-    @PostConstruct
-    private void setUp() {
-        sendMessage("endpoint is up and running");
     }
 }

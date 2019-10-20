@@ -32,7 +32,7 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET)
     public UserListJson test(TokenJson tokenJson) throws Auth0Exception {
         tokenValidator.validateToken(tokenJson);
-        kafkaService.sendMessage(SoaConstants.GET_AUTH_USERS);
+        //kafkaService.sendMessage(SoaConstants.GET_AUTH_USERS);
 
         return null;
         //return buildUserListJsonResponse(users);
